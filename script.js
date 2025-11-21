@@ -7,18 +7,6 @@ const TEAM_ID = '1610612759'; // San Antonio Spurs
 let cachedGameLog = null;
 let cachedShotChart = null;
 
-// Headers pour l'API NBA
-const NBA_HEADERS = {
-    'Host': 'stats.nba.com',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-    'Accept': 'application/json',
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Origin': 'https://www.nba.com',
-    'Referer': 'https://www.nba.com/',
-    'Connection': 'keep-alive'
-};
-
 // Initialisation
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🏀 Script chargé, début initialisation...');
@@ -52,7 +40,7 @@ async function loadAllData() {
     try {
         // Charger le game log (source unique de données)
         await loadGameLog();
-        
+
         // Calculer et afficher toutes les stats
         displayHeroStats();
         displayLastGame();
@@ -61,12 +49,25 @@ async function loadAllData() {
         displayShootingStats();
         displayDefenseStats();
         displayImpactStats();
-        
+
         // Charger le shot chart séparément
         await loadShotChart();
     } catch (error) {
         console.error('Erreur lors du chargement des données:', error);
     }
+}
+
+// Transformer le game log en tableau d'objets
+function transformGameLog(data) {
+    const headers = data.resultSets[0].headers;
+    const rows = data.resultSets[0].rowSet;
+    return rows.map(row => {
+        const game = {};
+        headers.forEach((header, index) => {
+            game[header] = row[index];
+        });
+        return game;
+    });
 }
 
 // Charger le game log (SEUL ENDPOINT FIABLE)
@@ -76,36 +77,87 @@ async function loadGameLog() {
     try {
         // Utiliser le proxy local pour contourner CORS
         const url = `/api/nba/playergamelog?PlayerID=${PLAYER_ID}&Season=${CURRENT_SEASON}&SeasonType=Regular+Season`;
-        
         console.log('📡 Requête API:', url);
-        
-        const response = await fetch(url, {
-            method: 'GET'
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("API NBA non disponible");
+
+        const data = await response.json();
+        if (!data.resultSets || data.resultSets[0].rowSet.length === 0) {
+            throw new Error("API NBA vide");
+        }
+
+        cachedGameLog = transformGameLog(data);
+        return cachedGameLog;
+
+    } catch (err) {
+        console.warn("⚠️ API NBA indisponible, fallback vers mock JSON");
+        const fallback = await fetch("/assets/mock_data.json").then(r => r.json());
+
+        cachedGameLog = transformGameLog(fallback.game_log);
+        cachedShotChart = fallback.shot_chart.resultSets[0].rowSet.map(row => {
+            const shot = {};
+            fallback.shot_chart.resultSets[0].headers.forEach((h, i) => shot[h] = row[i]);
+            return shot;
+        });
+        return cachedGameLog;
+    }
+}
+
+// Charger le shot chart
+async function loadShotChart() {
+    if (cachedShotChart) {
+        displayShotChart();
+        return;
+    }
+
+    try {
+        const params = new URLSearchParams({
+            PlayerID: PLAYER_ID,
+            Season: CURRENT_SEASON,
+            SeasonType: 'Regular Season',
+            TeamID: TEAM_ID,
+            GameID: '',
+            Outcome: '',
+            Location: '',
+            Month: '0',
+            SeasonSegment: '',
+            DateFrom: '',
+            DateTo: '',
+            OpponentTeamID: '0',
+            VsConference: '',
+            VsDivision: '',
+            Position: '',
+            RookieYear: '',
+            GameSegment: '',
+            Period: '0',
+            LastNGames: '0',
+            ContextMeasure: 'FGA'
         });
 
-        if (!response.ok) {
-            throw new Error(`Erreur HTTP: ${response.status}`);
-        }
+        const url = `/api/nba/shotchartdetail?${params}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("API NBA shot chart non disponible");
 
         const data = await response.json();
         const headers = data.resultSets[0].headers;
         const rows = data.resultSets[0].rowSet;
 
-        // Transformer en objets
-        cachedGameLog = rows.map(row => {
-            const game = {};
+        cachedShotChart = rows.map(row => {
+            const shot = {};
             headers.forEach((header, index) => {
-                game[header] = row[index];
+                shot[header] = row[index];
             });
-            return game;
+            return shot;
         });
 
-        return cachedGameLog;
-    } catch (error) {
-        console.error('Erreur lors du chargement du game log:', error);
-        throw error;
+        displayShotChart();
+    } catch (err) {
+        console.warn("⚠️ Shot chart API indisponible, fallback vers mock JSON");
+        displayShotChart();
     }
 }
+
 
 // Afficher les stats du hero
 function displayHeroStats() {
