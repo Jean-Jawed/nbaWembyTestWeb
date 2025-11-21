@@ -1,0 +1,688 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --spurs-black: #000000;
+    --spurs-silver: #c0c0c0;
+    --spurs-light-silver: #e8e8e8;
+    --spurs-accent: #ffffff;
+    --gradient-dark: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    --gradient-silver: linear-gradient(135deg, #c0c0c0 0%, #808080 100%);
+}
+
+body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    background: var(--spurs-black);
+    color: var(--spurs-silver);
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Hero Section */
+#hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.9) 100%);
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+.spurs-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 30px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.hero-title {
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--spurs-silver);
+    text-shadow: 0 0 20px rgba(192, 192, 192, 0.5), 0 0 40px rgba(192, 192, 192, 0.3);
+    letter-spacing: 8px;
+    margin-bottom: 20px;
+}
+
+.hero-subtitle {
+    font-size: 1.8rem;
+    color: var(--spurs-light-silver);
+    letter-spacing: 4px;
+    margin-bottom: 50px;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+}
+
+.hero-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-value {
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--spurs-accent);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.stat-label {
+    font-size: 1.2rem;
+    color: var(--spurs-silver);
+    letter-spacing: 2px;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    text-align: center;
+    color: var(--spurs-silver);
+    animation: bounce 2s infinite;
+}
+
+.scroll-arrow {
+    font-size: 2rem;
+    margin-top: 10px;
+}
+
+/* Section Styles */
+section {
+    padding: 100px 0;
+    position: relative;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 900;
+    text-align: center;
+    color: var(--spurs-silver);
+    letter-spacing: 4px;
+    margin-bottom: 60px;
+    text-shadow: 0 0 20px rgba(192, 192, 192, 0.3);
+}
+
+/* Last Game Section */
+#last-game {
+    background: var(--gradient-dark);
+}
+
+.last-game-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 2px solid var(--spurs-silver);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(192, 192, 192, 0.2);
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--spurs-silver);
+}
+
+.game-date {
+    font-size: 1.2rem;
+    color: var(--spurs-light-silver);
+}
+
+.game-result {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.win {
+    color: #00ff00;
+}
+
+.loss {
+    color: #ff4444;
+}
+
+.game-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 30px;
+}
+
+.game-stat-item {
+    text-align: center;
+    padding: 20px;
+    background: rgba(192, 192, 192, 0.1);
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.game-stat-item:hover {
+    transform: translateY(-5px);
+    background: rgba(192, 192, 192, 0.2);
+}
+
+.game-stat-value {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--spurs-accent);
+    display: block;
+    margin-bottom: 10px;
+}
+
+.game-stat-label {
+    font-size: 1rem;
+    color: var(--spurs-silver);
+}
+
+/* Blocks Section */
+#blocks {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.4);
+}
+
+.video-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.volume-btn {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--spurs-silver);
+    color: var(--spurs-silver);
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.volume-btn:hover {
+    background: var(--spurs-silver);
+    transform: scale(1.1);
+}
+
+.blocks-content {
+    position: relative;
+    z-index: 2;
+}
+
+.blocks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.block-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 3px solid var(--spurs-silver);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.block-img:hover {
+    transform: scale(1.05) rotate(2deg);
+}
+
+.blocks-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+}
+
+.stat-box {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid var(--spurs-silver);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    flex: 1;
+    transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(192, 192, 192, 0.3);
+}
+
+.stat-box h3 {
+    font-size: 3.5rem;
+    color: var(--spurs-accent);
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.stat-box p {
+    font-size: 1.1rem;
+    color: var(--spurs-silver);
+}
+
+/* Points Evolution Chart */
+#points-evolution {
+    background: var(--gradient-dark);
+}
+
+#points-chart {
+    width: 100%;
+    max-height: 500px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+/* Shooting Section */
+#shooting {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.shooting-content {
+    position: relative;
+    z-index: 2;
+}
+
+.shooting-images {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.shoot-img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 3px solid var(--spurs-silver);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.shooting-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 50px;
+}
+
+.stat-circle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.stat-center {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-center span:first-child {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--spurs-accent);
+}
+
+.stat-label-small {
+    font-size: 0.9rem;
+    color: var(--spurs-silver);
+}
+
+/* Defense Section */
+#defense {
+    background: var(--gradient-dark);
+}
+
+.defense-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+
+.defense-card {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 3px solid var(--spurs-silver);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.defense-card img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+.defense-stat {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 100%);
+    padding: 30px;
+    text-align: center;
+}
+
+.defense-stat h3 {
+    font-size: 3rem;
+    color: var(--spurs-accent);
+    margin-bottom: 10px;
+}
+
+.defense-stat p {
+    font-size: 1.2rem;
+    color: var(--spurs-silver);
+}
+
+/* Impact Section */
+#impact {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.impact-content {
+    position: relative;
+    z-index: 2;
+}
+
+.victor-main {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid var(--spurs-silver);
+    display: block;
+    margin: 0 auto 50px;
+    box-shadow: 0 0 50px rgba(192, 192, 192, 0.5);
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.impact-stat {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid var(--spurs-silver);
+    border-radius: 15px;
+    padding: 40px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.impact-stat:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(192, 192, 192, 0.3);
+}
+
+.impact-value {
+    display: block;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--spurs-accent);
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.impact-label {
+    font-size: 1rem;
+    color: var(--spurs-silver);
+}
+
+/* Shot Chart Section */
+#shot-chart {
+    background: var(--gradient-dark);
+}
+
+#shot-chart-canvas {
+    width: 100%;
+    max-height: 600px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 20px;
+    display: block;
+    margin: 0 auto;
+}
+
+.shot-chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.legend-color.made {
+    background: #00ff00;
+}
+
+.legend-color.missed {
+    background: #ff4444;
+}
+
+/* Footer */
+footer {
+    background: var(--spurs-black);
+    border-top: 2px solid var(--spurs-silver);
+    padding: 40px 0;
+    text-align: center;
+}
+
+.nba-logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+footer p {
+    color: var(--spurs-silver);
+    font-size: 1.1rem;
+}
+
+footer a {
+    color: var(--spurs-accent);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--spurs-light-silver);
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--spurs-silver);
+    padding: 40px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hero-title {
+        font-size: 3.5rem;
+    }
+
+    .hero-stats {
+        gap: 30px;
+    }
+
+    .stat-value {
+        font-size: 3rem;
+    }
+
+    .blocks-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .impact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+        letter-spacing: 4px;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .blocks-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .blocks-stats {
+        flex-direction: column;
+    }
+
+    .shooting-images {
+        grid-template-columns: 1fr;
+    }
+
+    .shooting-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .defense-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
+}

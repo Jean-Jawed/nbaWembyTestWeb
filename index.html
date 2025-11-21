@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victor Wembanyama - L'Alien</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="assets/images/logo.jpg" type="image/jpeg">
+</head>
+<body>
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-overlay"></div>
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="assets/videos/10playsRookie.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <img src="assets/images/spurs.png" alt="San Antonio Spurs" class="spurs-logo">
+            <h1 class="hero-title">VICTOR WEMBANYAMA</h1>
+            <p class="hero-subtitle">L'ALIEN DE SAN ANTONIO</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="stat-value" id="hero-ppg">--</span>
+                    <span class="stat-label">PPG</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-value" id="hero-bpg">--</span>
+                    <span class="stat-label">BPG</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-value" id="hero-rpg">--</span>
+                    <span class="stat-label">RPG</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Défiler pour découvrir</span>
+            <div class="scroll-arrow">↓</div>
+        </div>
+    </section>
+
+    <!-- Last Game Section -->
+    <section id="last-game">
+        <div class="container">
+            <h2 class="section-title">DERNIER MATCH</h2>
+            <div class="last-game-card" id="last-game-card">
+                <div class="loading">Chargement des données...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blocks Section -->
+    <section id="blocks">
+        <div class="video-background">
+            <video autoplay muted loop playsinline>
+                <source src="assets/videos/3BlocksA.mp4" type="video/mp4">
+            </video>
+            <div class="video-controls">
+                <button class="volume-btn" data-video="0">🔊</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="blocks-content">
+                <h2 class="section-title">LE ROI DES CONTRES</h2>
+                <div class="blocks-grid">
+                    <img src="assets/images/block1.png" alt="Block 1" class="block-img">
+                    <img src="assets/images/block2.jpg" alt="Block 2" class="block-img">
+                    <img src="assets/images/block3.jpg" alt="Block 3" class="block-img">
+                </div>
+                <div class="blocks-stats">
+                    <div class="stat-box">
+                        <h3 id="total-blocks">--</h3>
+                        <p>Blocks Total Saison</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3 id="avg-blocks">--</h3>
+                        <p>Blocks Par Match</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3 id="max-blocks">--</h3>
+                        <p>Record en un Match</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Points Evolution Chart -->
+    <section id="points-evolution">
+        <div class="container">
+            <h2 class="section-title">ÉVOLUTION DES POINTS</h2>
+            <canvas id="points-chart"></canvas>
+        </div>
+    </section>
+
+    <!-- Shooting Section -->
+    <section id="shooting">
+        <div class="video-background">
+            <video autoplay muted loop playsinline>
+                <source src="assets/videos/7ShootsA.mp4" type="video/mp4">
+            </video>
+            <div class="video-controls">
+                <button class="volume-btn" data-video="1">🔊</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="shooting-content">
+                <h2 class="section-title">CAPACITÉS DE SHOOT</h2>
+                <div class="shooting-images">
+                    <img src="assets/images/Three1.jpg" alt="Three pointer 1" class="shoot-img">
+                    <img src="assets/images/Three2.jpg" alt="Three pointer 2" class="shoot-img">
+                </div>
+                <div class="shooting-stats">
+                    <div class="stat-circle">
+                        <svg class="progress-ring" width="120" height="120">
+                            <circle class="progress-ring-circle" stroke="#c0c0c0" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                            <circle id="fg-circle" class="progress-ring-circle progress" stroke="#00ff00" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                        </svg>
+                        <div class="stat-center">
+                            <span id="fg-pct">--</span>
+                            <span class="stat-label-small">FG%</span>
+                        </div>
+                    </div>
+                    <div class="stat-circle">
+                        <svg class="progress-ring" width="120" height="120">
+                            <circle class="progress-ring-circle" stroke="#c0c0c0" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                            <circle id="three-circle" class="progress-ring-circle progress" stroke="#ffd700" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                        </svg>
+                        <div class="stat-center">
+                            <span id="three-pct">--</span>
+                            <span class="stat-label-small">3P%</span>
+                        </div>
+                    </div>
+                    <div class="stat-circle">
+                        <svg class="progress-ring" width="120" height="120">
+                            <circle class="progress-ring-circle" stroke="#c0c0c0" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                            <circle id="ft-circle" class="progress-ring-circle progress" stroke="#00bfff" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                        </svg>
+                        <div class="stat-center">
+                            <span id="ft-pct">--</span>
+                            <span class="stat-label-small">FT%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Defense Section -->
+    <section id="defense">
+        <div class="container">
+            <h2 class="section-title">UN VRAI MENEUR</h2>
+            <div class="defense-grid">
+                <div class="defense-card">
+                    <img src="assets/images/guard1.jpeg" alt="Defense 1">
+                    <div class="defense-stat">
+                        <h3 id="steals-avg">--</h3>
+                        <p>Interceptions/Match</p>
+                    </div>
+                </div>
+                <div class="defense-card">
+                    <img src="assets/images/guard2.jpg" alt="Defense 2">
+                    <div class="defense-stat">
+                        <h3 id="def-rebounds">--</h3>
+                        <p>Rebonds Défensifs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overall Impact -->
+    <section id="impact">
+        <div class="video-background">
+            <video autoplay muted loop playsinline>
+                <source src="assets/videos/3BlocksC.mp4" type="video/mp4">
+            </video>
+            <div class="video-controls">
+                <button class="volume-btn" data-video="2">🔊</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="impact-content">
+                <img src="assets/images/victor1.jpg" alt="Victor Wembanyama" class="victor-main">
+                <h2 class="section-title">IMPACT GLOBAL</h2>
+                <div class="impact-grid">
+                    <div class="impact-stat">
+                        <span class="impact-value" id="total-points">--</span>
+                        <span class="impact-label">Points Totaux</span>
+                    </div>
+                    <div class="impact-stat">
+                        <span class="impact-value" id="total-assists">--</span>
+                        <span class="impact-label">Passes Décisives</span>
+                    </div>
+                    <div class="impact-stat">
+                        <span class="impact-value" id="total-rebounds">--</span>
+                        <span class="impact-label">Rebonds Totaux</span>
+                    </div>
+                    <div class="impact-stat">
+                        <span class="impact-value" id="games-played">--</span>
+                        <span class="impact-label">Matchs Joués</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shot Chart Section -->
+    <section id="shot-chart">
+        <div class="container">
+            <h2 class="section-title">CARTE DES TIRS</h2>
+            <canvas id="shot-chart-canvas"></canvas>
+            <div class="shot-chart-legend">
+                <div class="legend-item">
+                    <span class="legend-color made"></span>
+                    <span>Réussi</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color missed"></span>
+                    <span>Raté</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <img src="assets/images/nba.png" alt="NBA" class="nba-logo">
+            <p>By <a href="https://jawed.fr" target="_blank">Jawed</a> 2025</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
