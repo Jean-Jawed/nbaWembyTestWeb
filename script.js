@@ -7,6 +7,18 @@ const TEAM_ID = '1610612759'; // San Antonio Spurs
 let cachedGameLog = null;
 let cachedShotChart = null;
 
+// Headers pour l'API NBA
+const NBA_HEADERS = {
+    'Host': 'stats.nba.com',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    'Accept': 'application/json',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Origin': 'https://www.nba.com',
+    'Referer': 'https://www.nba.com/',
+    'Connection': 'keep-alive'
+};
+
 // Initialisation
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🏀 Script chargé, début initialisation...');
@@ -40,7 +52,7 @@ async function loadAllData() {
     try {
         // Charger le game log (source unique de données)
         await loadGameLog();
-
+        
         // Calculer et afficher toutes les stats
         displayHeroStats();
         displayLastGame();
@@ -49,25 +61,12 @@ async function loadAllData() {
         displayShootingStats();
         displayDefenseStats();
         displayImpactStats();
-
+        
         // Charger le shot chart séparément
         await loadShotChart();
     } catch (error) {
         console.error('Erreur lors du chargement des données:', error);
     }
-}
-
-// Transformer le game log en tableau d'objets
-function transformGameLog(data) {
-    const headers = data.resultSets[0].headers;
-    const rows = data.resultSets[0].rowSet;
-    return rows.map(row => {
-        const game = {};
-        headers.forEach((header, index) => {
-            game[header] = row[index];
-        });
-        return game;
-    });
 }
 
 // Charger le game log (SEUL ENDPOINT FIABLE)
@@ -77,87 +76,36 @@ async function loadGameLog() {
     try {
         // Utiliser le proxy local pour contourner CORS
         const url = `/api/nba/playergamelog?PlayerID=${PLAYER_ID}&Season=${CURRENT_SEASON}&SeasonType=Regular+Season`;
+        
         console.log('📡 Requête API:', url);
+        
+        const response = await fetch(url, {
+            method: 'GET'
+        });
 
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("API NBA non disponible");
-
-        const data = await response.json();
-        if (!data.resultSets || data.resultSets[0].rowSet.length === 0) {
-            throw new Error("API NBA vide");
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP: ${response.status}`);
         }
-
-        cachedGameLog = transformGameLog(data);
-        return cachedGameLog;
-
-    } catch (err) {
-        console.warn("⚠️ API NBA indisponible, fallback vers mock JSON");
-        const fallback = await fetch("/assets/mock_data.json").then(r => r.json());
-
-        cachedGameLog = transformGameLog(fallback.game_log);
-        cachedShotChart = fallback.shot_chart.resultSets[0].rowSet.map(row => {
-            const shot = {};
-            fallback.shot_chart.resultSets[0].headers.forEach((h, i) => shot[h] = row[i]);
-            return shot;
-        });
-        return cachedGameLog;
-    }
-}
-
-// Charger le shot chart
-async function loadShotChart() {
-    if (cachedShotChart) {
-        displayShotChart();
-        return;
-    }
-
-    try {
-        const params = new URLSearchParams({
-            PlayerID: PLAYER_ID,
-            Season: CURRENT_SEASON,
-            SeasonType: 'Regular Season',
-            TeamID: TEAM_ID,
-            GameID: '',
-            Outcome: '',
-            Location: '',
-            Month: '0',
-            SeasonSegment: '',
-            DateFrom: '',
-            DateTo: '',
-            OpponentTeamID: '0',
-            VsConference: '',
-            VsDivision: '',
-            Position: '',
-            RookieYear: '',
-            GameSegment: '',
-            Period: '0',
-            LastNGames: '0',
-            ContextMeasure: 'FGA'
-        });
-
-        const url = `/api/nba/shotchartdetail?${params}`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("API NBA shot chart non disponible");
 
         const data = await response.json();
         const headers = data.resultSets[0].headers;
         const rows = data.resultSets[0].rowSet;
 
-        cachedShotChart = rows.map(row => {
-            const shot = {};
+        // Transformer en objets
+        cachedGameLog = rows.map(row => {
+            const game = {};
             headers.forEach((header, index) => {
-                shot[header] = row[index];
+                game[header] = row[index];
             });
-            return shot;
+            return game;
         });
 
-        displayShotChart();
-    } catch (err) {
-        console.warn("⚠️ Shot chart API indisponible, fallback vers mock JSON");
-        displayShotChart();
+        return cachedGameLog;
+    } catch (error) {
+        console.error('Erreur lors du chargement du game log:', error);
+        throw error;
     }
 }
-
 
 // Afficher les stats du hero
 function displayHeroStats() {
@@ -466,16 +414,32 @@ function displayShotChart() {
 
     // Dessiner les tirs
     if (cachedShotChart && cachedShotChart.length > 0) {
+        console.log(`📍 Affichage de ${cachedShotChart.length} tirs`);
+        
         cachedShotChart.forEach(shot => {
-            const x = (shot.LOC_X / 10) + canvas.width / 2;
-            const y = canvas.height - (shot.LOC_Y / 10) - 40;
+            // Conversion des coordonnées NBA vers canvas
+            // LOC_X: -250 à +250 (largeur terrain = 500 unités = 50 pieds)
+            // LOC_Y: 0 à 940 (longueur demi-terrain = 470 unités = 47 pieds)
+            
+            // Échelle: 1 unité NBA = 1 pixel canvas
+            const x = (shot.LOC_X) + canvas.width / 2;  // Centrer
+            const y = canvas.height - shot.LOC_Y - 50;   // Inverser Y (panier en bas)
+            
             const made = shot.SHOT_MADE_FLAG === 1;
 
             ctx.fillStyle = made ? 'rgba(0, 255, 0, 0.6)' : 'rgba(255, 68, 68, 0.6)';
+            ctx.strokeStyle = made ? 'rgba(0, 200, 0, 0.8)' : 'rgba(200, 50, 50, 0.8)';
+            ctx.lineWidth = 1;
+            
             ctx.beginPath();
-            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
             ctx.fill();
+            ctx.stroke();
         });
+        
+        console.log(`✅ ${cachedShotChart.length} tirs affichés`);
+    } else {
+        console.log('⚠️ Aucun tir à afficher');
     }
 }
 
