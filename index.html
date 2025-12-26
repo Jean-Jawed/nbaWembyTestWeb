@@ -14,8 +14,13 @@
         <video class="hero-video" autoplay muted loop playsinline>
             <source src="assets/videos/10playsRookie.mp4" type="video/mp4">
         </video>
+        <div class="video-controls hero-video-controls">
+            <button class="volume-btn" data-video="hero">🔇</button>
+        </div>
         <div class="hero-content">
-            <img src="assets/images/spurs.png" alt="San Antonio Spurs" class="spurs-logo">
+            <a href="https://www.nba.com/spurs/" target="_blank" rel="noopener noreferrer" class="spurs-logo-link">
+                <img src="assets/images/spurs.png" alt="San Antonio Spurs" class="spurs-logo">
+            </a>
             <h1 class="hero-title">VICTOR WEMBANYAMA</h1>
             <p class="hero-subtitle">L'ALIEN DE SAN ANTONIO</p>
             <div class="hero-stats">
@@ -33,10 +38,10 @@
                 </div>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <span>Défiler pour découvrir</span>
-            <div class="scroll-arrow">↓</div>
-        </div>
+        <button class="scroll-cta" id="scroll-cta">
+            <span>Découvrir les stats</span>
+            <div class="arrow-icon">↓</div>
+        </button>
     </section>
 
     <!-- Last Game Section -->
@@ -56,7 +61,7 @@
                 <source src="assets/videos/3BlocksA.mp4" type="video/mp4">
             </video>
             <div class="video-controls">
-                <button class="volume-btn" data-video="0">🔊</button>
+                <button class="volume-btn" data-video="0">🔇</button>
             </div>
         </div>
         <div class="container">
@@ -64,8 +69,8 @@
                 <h2 class="section-title">LE ROI DES CONTRES</h2>
                 <div class="blocks-grid">
                     <img src="assets/images/block1.png" alt="Block 1" class="block-img">
-                    <img src="assets/images/block2.jpg" alt="Block 2" class="block-img">
-                    <img src="assets/images/block3.jpg" alt="Block 3" class="block-img">
+                    <img src="assets/images/block2.png" alt="Block 2" class="block-img">
+                    <img src="assets/images/block3.png" alt="Block 3" class="block-img">
                 </div>
                 <div class="blocks-stats">
                     <div class="stat-box">
@@ -100,7 +105,7 @@
                 <source src="assets/videos/7ShootsA.mp4" type="video/mp4">
             </video>
             <div class="video-controls">
-                <button class="volume-btn" data-video="1">🔊</button>
+                <button class="volume-btn" data-video="1">🔇</button>
             </div>
         </div>
         <div class="container">
@@ -149,7 +154,7 @@
     <!-- Defense Section -->
     <section id="defense">
         <div class="container">
-            <h2 class="section-title">UN VRAI MENEUR</h2>
+            <h2 class="section-title">DÉFENSE D'ÉLITE</h2>
             <div class="defense-grid">
                 <div class="defense-card">
                     <img src="assets/images/guard1.jpeg" alt="Defense 1">
@@ -159,7 +164,7 @@
                     </div>
                 </div>
                 <div class="defense-card">
-                    <img src="assets/images/guard2.jpg" alt="Defense 2">
+                    <img src="assets/images/guard2.jpeg" alt="Defense 2">
                     <div class="defense-stat">
                         <h3 id="def-rebounds">--</h3>
                         <p>Rebonds Défensifs</p>
@@ -176,7 +181,7 @@
                 <source src="assets/videos/3BlocksC.mp4" type="video/mp4">
             </video>
             <div class="video-controls">
-                <button class="volume-btn" data-video="2">🔊</button>
+                <button class="volume-btn" data-video="2">🔇</button>
             </div>
         </div>
         <div class="container">
@@ -227,7 +232,7 @@
     <footer>
         <div class="container">
             <img src="assets/images/nba.png" alt="NBA" class="nba-logo">
-            <p>By <a href="https://javed.fr" target="_blank">Jawed Tahir</a> 2025</p>
+            <p>By <a href="https://jawed.fr" target="_blank">Jawed</a> 2025</p>
         </div>
     </footer>
 

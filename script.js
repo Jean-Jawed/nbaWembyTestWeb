@@ -11,25 +11,53 @@ let cachedShotChart = null;
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🏀 Script chargé, début initialisation...');
     setupVideoControls();
+    setupScrollCTA();
     console.log('🎬 Vidéos configurées');
     await loadAllData();
     console.log('✅ Toutes les données chargées');
 });
 
+// Configuration du bouton CTA scroll
+function setupScrollCTA() {
+    const scrollBtn = document.getElementById('scroll-cta');
+    if (scrollBtn) {
+        scrollBtn.addEventListener('click', () => {
+            const nextSection = document.getElementById('last-game');
+            if (nextSection) {
+                nextSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    }
+}
+
 // Configuration des contrôles vidéo
 function setupVideoControls() {
-    const videos = document.querySelectorAll('.video-background video');
     const volumeBtns = document.querySelectorAll('.volume-btn');
 
-    volumeBtns.forEach((btn, index) => {
+    volumeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            const video = videos[index];
-            if (video.muted) {
-                video.muted = false;
-                btn.textContent = '🔇';
+            const videoIndex = btn.getAttribute('data-video');
+            let video;
+            
+            // Gérer la vidéo hero séparément
+            if (videoIndex === 'hero') {
+                video = document.querySelector('.hero-video');
             } else {
-                video.muted = true;
-                btn.textContent = '🔊';
+                const videos = document.querySelectorAll('.video-background video');
+                video = videos[parseInt(videoIndex)];
+            }
+            
+            if (video) {
+                if (video.muted) {
+                    video.muted = false;
+                    btn.textContent = '🔊';
+                } else {
+                    video.muted = true;
+                    btn.textContent = '🔇';
+                }
             }
         });
     });
