@@ -47,7 +47,7 @@ class handler(BaseHTTPRequestHandler):
             }
 
             req = Request(nba_url, headers=headers)
-            with urlopen(req, timeout=25) as response:
+            with urlopen(req, timeout=5) as response:
                 data = response.read()
 
                 if response.headers.get('Content-Encoding') == 'gzip':
