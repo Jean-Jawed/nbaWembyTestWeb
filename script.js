@@ -104,7 +104,7 @@ async function loadGameLog() {
 
     try {
         // Utiliser le proxy local pour contourner CORS
-        const url = `/api/nba/playergamelog?PlayerID=${PLAYER_ID}&Season=${CURRENT_SEASON}&SeasonType=Regular+Season`;
+        const url = `/api/nba/playergamelog?PlayerID=${PLAYER_ID}&Season=${CURRENT_SEASON}&SeasonType=Regular Season`;
         console.log('📡 Requête API:', url);
 
         const response = await fetch(url);
